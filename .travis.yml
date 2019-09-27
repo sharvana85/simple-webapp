@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - "9"
+dist: trusty
+sudo: false
+
+branches:
+  only:
+  - master
+
+cache:
+  directories:
+    - node_modules
+
+install:
+  - npm install -g yarn
+
+script:
+  - yarn lint
+  - yarn build --base-href /simple-webapp/
+  - mv dist/simple-webapp/index.html dist/simple-webapp/404.html
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: 477728071c5a7e9f9d87efa09bf475d534915399
+  local_dir: dist/simple-webapp
+  on:
+    branch: master
